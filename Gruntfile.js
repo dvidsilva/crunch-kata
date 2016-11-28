@@ -35,5 +35,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-run');
 
     grunt.registerTask('default', ['concat']);
+    grunt.registerTask('dev', ['concat', 'run:test', 'watch']);
 
 };
