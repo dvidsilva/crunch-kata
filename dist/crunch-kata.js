@@ -1,6 +1,21 @@
 angular.module('crunch-kata', []);
 
 
+angular.module('crunch-kata').factory('order', function (data, helpers) {
+    var order = {};
+
+    data.get('order').then(function (data) {
+        order.data = data;
+        order.list = helpers.flattenGraph(data.graph);
+        console.log(order.list);
+    });
+
+    order.get = function get(position) {
+        return null;
+    }
+
+    return order;
+});
 
 angular.module('crunch-kata').factory('data', function ($http, $q, $log) {
     var data = {};
@@ -27,6 +42,43 @@ angular.module('crunch-kata').factory('data', function ($http, $q, $log) {
     return data;
 });
 
+angular.module('crunch-kata').factory('helpers', function () {
+    var helpers = {};
+
+    helpers.flattenGraph = function flattenGraph(obj) {
+        var Item = function (value) {
+            this.value = value;
+        };
+
+        var stack = [];
+        stack.push(new Item(obj));
+        var result = [];
+
+        while (stack.length > 0) {
+            var item = stack.shift();
+            for (var propName in item.value) {
+                switch (Object.prototype.toString.call(item.value[propName])) {
+                    case "[object Object]":
+                        stack.push(new Item(item.value[propName]));
+                        break;
+                    case "[object Array]":
+                        for (var i = 0; i < item.value[propName].length; i++) {
+                            stack.push(new Item(item.value[propName][i]));
+                            if (typeof item.value[propName][i] === 'string') {
+                                result.push(item.value[propName][i]);
+                            }
+
+                        }
+                        break;
+                }
+            }
+        }
+        return result;
+    };
+
+    return helpers;
+});
+
 /**
  * @class angular_module.crunch-kata.crunchVariableCatalog
  *
@@ -36,9 +88,9 @@ angular.module('crunch-kata').factory('data', function ($http, $q, $log) {
 angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
   return {
     template: '',
-    controller: function (data) {
+    controller: function (order) {
         var self = this;
-        self.order = data.get('order');
+
     }
   };
 });

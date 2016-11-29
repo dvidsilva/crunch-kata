@@ -1,9 +1,10 @@
 const sourceFiles = [
     'src/module.js',
     'src/name-service.js',
-    'src/position-service.js',
+    'src/order-service.js',
     'src/data-service.js',
-    'src/directive.js'
+    'src/helpers.js',
+    'src/directive.js',
 ];
 
 module.exports = function (grunt) {

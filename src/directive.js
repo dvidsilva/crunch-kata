@@ -7,9 +7,9 @@
 angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
   return {
     template: '',
-    controller: function (data) {
+    controller: function (order) {
         var self = this;
-        self.order = data.get('order');
+
     }
   };
 });
