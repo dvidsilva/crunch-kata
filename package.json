@@ -19,7 +19,7 @@
     "preset": "airbnb"
   },
   "devDependencies": {
-    "angular-mock": "^1.5.9",
+    "angular-mocks": "^1.5.9",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
