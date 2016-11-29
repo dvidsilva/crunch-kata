@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dvidsilva/crunch-kata.svg?branch=master)](https://travis-ci.org/dvidsilva/crunch-kata)
+
 # Crunch Kata
 
 Welcome to the Crunch Kata! The purpose of this exercise is evaluate your
