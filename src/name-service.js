@@ -1,4 +1,4 @@
-angular.module('crunch-kata').factory('name', function (data, helpers, $q) {
+angular.module('crunch-kata').factory('crunchName', function (data, helpers, $q) {
     var self = {};
 
     var getData = function getData() {

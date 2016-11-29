@@ -1,5 +1,32 @@
 [![Build Status](https://travis-ci.org/dvidsilva/crunch-kata.svg?branch=master)](https://travis-ci.org/dvidsilva/crunch-kata)
 
+# Install
+
+This can be installed using bower or npm
+
+```
+bower install dvidsilva/crunch-kata
+```
+```
+npm i https://github.com/dvidsilva/crunch-kata
+```
+
+# Usage
+
+Include the module `crunch-kata` in your application:
+
+```
+angular.module('myApp', ['crunch-kata']);
+```
+
+Then you can use the directive on the templates:
+
+```
+<crunch-variable-catalog></crunch-variable-catalog>
+```
+
+The service `crunchOrder` and `crunchName` are also available, to find data by its position or name.
+
 # Crunch Kata
 
 Welcome to the Crunch Kata! The purpose of this exercise is evaluate your

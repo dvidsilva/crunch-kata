@@ -3,7 +3,7 @@ angular.module('crunch-kata', []).run(function (data, $log) {
     data.get('variables');
 });
 
-angular.module('crunch-kata').factory('name', function (data, helpers, $q) {
+angular.module('crunch-kata').factory('crunchName', function (data, helpers, $q) {
     var self = {};
 
     var getData = function getData() {
@@ -44,7 +44,7 @@ angular.module('crunch-kata').factory('name', function (data, helpers, $q) {
     return self;
 });
 
-angular.module('crunch-kata').factory('order', function (data, helpers, $q) {
+angular.module('crunch-kata').factory('crunchOrder', function (data, helpers, $q) {
     var order = {};
 
     var getData = function getData() {
@@ -202,12 +202,12 @@ angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
     template: template.join(''),
     controllerAs: 'vm',
     restrict: 'E',
-    controller: function (order, name, data, helpers) {
+    controller: function (crunchOrder, crunchName, data, helpers) {
         var self = this;
 
         self.data = {};
         
-        order.get(1).then(function (result) {
+        crunchOrder.get(1).then(function (result) {
             console.log(result);
         });
 

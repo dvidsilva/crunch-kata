@@ -2,8 +2,8 @@ describe("Order Service", function () {
     var orderService;
     beforeEach(function () {
         module('crunch-kata');
-        inject(function (_order_) {
-            orderService = _order_;
+        inject(function (_crunchOrder_) {
+            orderService = _crunchOrder_;
         });
     });
 
