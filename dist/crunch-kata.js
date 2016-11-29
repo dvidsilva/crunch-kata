@@ -1,5 +1,45 @@
 angular.module('crunch-kata', []);
 
+angular.module('crunch-kata').factory('name', function (data, helpers, $q) {
+    var self = {};
+
+    var getData = function getData() {
+        var deferred = $q.defer();
+        data.get('order').then(function (data) {
+            self.data = data;
+            self.list = helpers.flattenGraph(data.graph);
+            if (name.data && name.variables) {
+                deferred.resolve();
+            }
+
+        });
+
+        data.get('variables').then(function (data) {
+            self.variables = data.index;
+            if (self.data && self.variables) {
+                deferred.resolve();
+            }
+
+        });
+
+        return deferred.promise;
+    }
+
+    self.get = function get(name) {
+        return getData().then(function () {
+            var keys = Object.keys(self.variables);
+            for (var i = 0; i < keys.length; i++) {
+                if (self.variables[keys[i]].name === name) {
+                    return keys.indexOf(keys[i]);
+                }
+            }
+            return null;
+        });
+
+    }
+
+    return self;
+});
 
 angular.module('crunch-kata').factory('order', function (data, helpers, $q) {
     var order = {};
@@ -113,11 +153,22 @@ angular.module('crunch-kata').factory('helpers', function () {
 angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
   return {
     template: '',
-    controller: function (order) {
+    controller: function (order, name) {
         var self = this;
+
+        self.data = {};
+        
 
         order.get(1).then(function (result) {
             console.log(result);
+        });
+
+        name.get('City').then(function (result) {
+            console.log(result);
+        });
+
+        data.get('variables').then(function (data) {
+            self.data = data;
         });
 
     }
