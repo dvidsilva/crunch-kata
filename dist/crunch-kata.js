@@ -1,4 +1,7 @@
-angular.module('crunch-kata', []);
+angular.module('crunch-kata', []).run(function (data, $log) {
+    data.get('order');
+    data.get('variables');
+});
 
 angular.module('crunch-kata').factory('name', function (data, helpers, $q) {
     var self = {};
@@ -110,6 +113,40 @@ angular.module('crunch-kata').factory('data', function ($http, $q, $log) {
 angular.module('crunch-kata').factory('helpers', function () {
     var helpers = {};
 
+    helpers.fixData = function fixData (order, data) {
+        var Item = function (value) {
+            this.value = value;
+        };
+
+        var stack = [];
+        stack.push(new Item(data.index));
+        if (order) {
+            return Object.keys(data.index);
+        }
+
+        var result = [];
+        while (stack.length > 0) {
+            var item = stack.shift();
+            for (var propName in item.value) {
+                switch (Object.prototype.toString.call(item.value[propName])) {
+                    case "[object Object]":
+                        stack.push(new Item(item.value[propName]));
+                        break;
+                    case "[object Array]":
+                        for (var i = 0; i < item.value[propName].length; i++) {
+                            stack.push(new Item(item.value[propName][i]));
+                            if (typeof item.value[propName][i] === 'string') {
+                                result.push(item.value[propName][i]);
+                            }
+
+                        }
+                        break;
+                }
+            }
+        }
+        return result;
+    };
+
     helpers.flattenGraph = function flattenGraph(obj) {
         var Item = function (value) {
             this.value = value;
@@ -151,14 +188,25 @@ angular.module('crunch-kata').factory('helpers', function () {
  * hierarchical order.
  */
 angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
+  var template = [
+      '<div>',
+      '     <p><strong ng-bind=vm.data.description></strong></p>',
+      '     <ul>',
+      '     <li ng-repeat="item in vm.fixedData">',
+      '         <variable-display variable=item></variable-display>',
+      '     </li>',
+      '     </ul>',
+      '</div>'
+  ];
   return {
-    template: '',
-    controller: function (order, name) {
+    template: template.join(''),
+    controllerAs: 'vm',
+    restrict: 'E',
+    controller: function (order, name, data, helpers) {
         var self = this;
 
         self.data = {};
         
-
         order.get(1).then(function (result) {
             console.log(result);
         });
@@ -167,12 +215,44 @@ angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
             console.log(result);
         });
 
-        data.get('variables').then(function (data) {
-            self.data = data;
+        data.get('variables').then(function (vars) {
+            self.data = vars;
+        }).then(function () {
+            return data.get('order');
+        }).then(function (order) {
+            self.order = order;
+        }).then(function () {
+            self.fixedData = helpers.fixData(self.order, self.data);
         });
+       
 
     }
   };
+}).directive('variableDisplay', function () {
+    var template = [
+        '<p>',
+        '<span ng-if="vm.hasChildren(variable)">{{variable}}</span>',
+        '<ul ng-if="!vm.hasChildren(variable)">',
+        '   <li ng-repeat="item in category.categories">',
+        '       <variable-display variable=item></variable-display>',
+        '   </li>',
+        '</ul>',
+        '</p>'
+    ];
+    return {
+        template: template.join(''),
+        controllerAs: 'vm',
+        restrict: 'E',
+        scope: {
+            variable: '='
+        },
+        controller: function () {
+            this.hasChildren = function (item) {
+                console.log(item);
+                return (typeof item === 'string');
+            };
+        }
+    };
 });
 
 //# sourceMappingURL=crunch-kata.js.map
