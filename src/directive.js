@@ -10,6 +10,10 @@ angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
     controller: function (order) {
         var self = this;
 
+        order.get(1).then(function (result) {
+            console.log(result);
+        });
+
     }
   };
 });

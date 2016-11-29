@@ -1,9 +1,11 @@
 describe("Tests for the helpers service", function () {
-    beforeEach(module('crunch-kata'));
     var helpers;
-    beforeEach(inject(function (_helpers_) {
-        helpers = _helpers_;
-    }));
+    beforeEach(function () {
+        module('crunch-kata');
+        inject(function (_helpers_) {
+            helpers = _helpers_;
+        });
+    });
 
     var data = [
 		{
