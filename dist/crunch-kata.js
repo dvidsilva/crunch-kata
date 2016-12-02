@@ -211,7 +211,7 @@ angular.module('crunch-kata').directive('crunchVariableCatalog', function () {
             console.log(result);
         });
 
-        name.get('City').then(function (result) {
+        crunchName.get('City').then(function (result) {
             console.log(result);
         });
 
